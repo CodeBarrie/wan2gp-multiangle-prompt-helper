@@ -1,7 +1,7 @@
 {
   "name": "Multi-Angle Prompt Helper",
   "author": "CodeBarrie",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "3D orbit gizmo + prompt helper for multi-angle camera control. Drag to set azimuth, elevation, and distance with visual feedback.",
   "date": "",
   "wan2gp_version": ""
