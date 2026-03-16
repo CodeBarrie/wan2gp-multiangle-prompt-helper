@@ -1,0 +1,8 @@
+{
+  "name": "Multi-Angle Prompt Helper",
+  "author": "CodeBarrie",
+  "version": "1.4.0",
+  "description": "Injects a prompt helper into the Video Generator UI with azimuth, elevation, and distance controls. Outputs degree/factor text for multi-angle generation.",
+  "date": "",
+  "wan2gp_version": ""
+}
