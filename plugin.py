@@ -300,7 +300,7 @@ class MultiAnglePromptHelper(WAN2GPPlugin):
             mults = str(settings.get("loras_multipliers", "")).rstrip()
             if HF_FILENAME not in loras:
                 loras.append(HF_FILENAME)
-                mults = (mults + "\n1") if mults else "1"
+                mults = (mults + " 1") if mults else "1"
             settings["activated_loras"] = loras
             settings["loras_multipliers"] = mults
             return self.goto_video_tab(state), ts
