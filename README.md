@@ -35,6 +35,18 @@ For batch prompts to queue as separate video requests, enable "Each New Line Wil
 
 Click "Apply to Prompts & Go to Video Tab" to write the prompt into Video Generator's prompt box and switch tabs automatically. Choose Append or Replace mode, and select whether to apply from the single Output or from the Batch output.
 
+## Prerequisites — Multi-Angle LoRA
+
+This plugin generates prompts for the **[Qwen-Image-Edit-2511-Multiple-Angles-LoRA](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA)** by fal.ai. You need to download the LoRA file before the prompts will have any effect.
+
+**Option A — Use the built-in button:** When the LoRA is missing, the plugin shows a "Download Multi-Angle LoRA" button at the top of the tab. Click it and the file is downloaded straight into `loras/qwen/`.
+
+**Option B — Manual download:**
+1. Download `qwen-image-edit-2511-multiple-angles-lora.safetensors` from [HuggingFace](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA).
+2. Place it in your WAN2GP `loras/qwen/` directory.
+
+Once the LoRA is in place, select it in the LoRA picker on the Video Generator tab (Qwen model), then use the prompts from this plugin.
+
 ## Installation
 
 Copy the `wan2gp-multiangle-prompt-helper` folder into your WAN2GP `plugins` directory and restart.

@@ -1,4 +1,5 @@
 import html as _html
+import os
 import time
 import gradio as gr
 import traceback
@@ -48,6 +49,10 @@ CANONICAL_LOOKUP = {
 }
 
 REFERENCE_POSE = f"{TRIGGER} front view (0°) eye-level shot (0°) medium shot (×1.0)"
+
+HF_REPO_ID = "fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA"
+HF_FILENAME = "qwen-image-edit-2511-multiple-angles-lora.safetensors"
+LORA_DIR = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "..", "loras", "qwen"))
 
 
 _GIZMO_DOC = """<!DOCTYPE html><html><head>
@@ -290,9 +295,51 @@ class MultiAnglePromptHelper(WAN2GPPlugin):
 
         def apply_and_goto(state, new_text, mode, gap_n):
             ts = apply_to_prompt(state, new_text, mode, gap_n)
+            settings = self.get_current_model_settings(state)
+            loras = list(settings.get("activated_loras", []))
+            mults = str(settings.get("loras_multipliers", "")).rstrip()
+            if HF_FILENAME not in loras:
+                loras.append(HF_FILENAME)
+                mults = (mults + "\n1") if mults else "1"
+            settings["activated_loras"] = loras
+            settings["loras_multipliers"] = mults
             return self.goto_video_tab(state), ts
 
         with gr.Column():
+            # --- LoRA status & download ---
+            lora_path = os.path.join(LORA_DIR, HF_FILENAME)
+            lora_found = os.path.isfile(lora_path)
+
+            def _lora_status_html(found):
+                if found:
+                    return '<span style="color:#44ddaa;font-weight:bold;">&#10003; Multi-Angle LoRA detected</span>'
+                return '<span style="color:#ff6666;font-weight:bold;">&#10007; Multi-Angle LoRA not found</span> &mdash; download it to use this plugin'
+
+            lora_status = gr.HTML(value=_lora_status_html(lora_found))
+
+            def _download_lora():
+                dest = os.path.join(LORA_DIR, HF_FILENAME)
+                if os.path.isfile(dest):
+                    return _lora_status_html(True), gr.update(visible=False)
+                try:
+                    from huggingface_hub import hf_hub_download
+                    os.makedirs(LORA_DIR, exist_ok=True)
+                    hf_hub_download(
+                        repo_id=HF_REPO_ID,
+                        filename=HF_FILENAME,
+                        local_dir=LORA_DIR,
+                    )
+                    return _lora_status_html(True), gr.update(visible=False)
+                except Exception as e:
+                    return f'<span style="color:#ff6666;">Download failed: {e}</span>', gr.update(visible=True)
+
+            download_btn = gr.Button(
+                "Download Multi-Angle LoRA",
+                variant="secondary",
+                visible=not lora_found,
+            )
+            download_btn.click(fn=_download_lora, inputs=[], outputs=[lora_status, download_btn])
+
             include_trigger = gr.Checkbox(label=f"Include {TRIGGER} trigger token", value=True)
 
             # Hidden gizmo→Gradio bridge
