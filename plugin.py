@@ -249,7 +249,7 @@ class MultiAnglePromptHelper(WAN2GPPlugin):
     def __init__(self):
         super().__init__()
         self.name = PlugIn_Name
-        self.version = "2.1.0"
+        self.version = "2.2.0"
         self.description = "3D orbit gizmo for multi-angle prompt generation."
 
     def setup_ui(self):

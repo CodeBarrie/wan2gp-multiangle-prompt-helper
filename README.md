@@ -2,6 +2,12 @@
 
 A [WAN2GP](https://github.com/deepbeepmeep/Wan2GP) plugin for generating multi-angle camera prompts using the Qwen Image Edit 2511 Multiple Angles LoRA. Pick your camera angle with a 3D orbit gizmo, then apply the prompt directly to Video Generator.
 
+### What's new in v2.2
+
+- **LoRA auto-activate** — Clicking "Apply to Prompts & Go to Video Tab" now automatically adds the Multi-Angle LoRA to your active LoRAs with a weight of 1. No more forgetting to select it manually.
+- **One-click LoRA download** — A status indicator at the top of the tab shows whether the LoRA is installed. If it's missing, hit the download button and it pulls straight from HuggingFace into `loras/qwen/`.
+- **LoRA prerequisites in docs** — New section below with setup instructions for first-time users.
+
 ## 3D Orbit Gizmo
 
 ![3D Orbit Gizmo](gizmo-preview.png)
